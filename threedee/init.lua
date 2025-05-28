@@ -1,6 +1,6 @@
 local path = (...);
 
-local Threedee = require(path .. "/threedee");
+local Threedee = {};
 
  -- globalize these scripts
 _G.Matrix = require(path .. "/matrix");
