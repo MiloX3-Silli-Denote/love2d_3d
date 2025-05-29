@@ -6,13 +6,13 @@ uniform mat4 projectionMatrix; // handled by the camera
 uniform mat4 viewMatrix;       // handled by the camera
 uniform mat4 modelMatrix;      // models send their own model matrices when drawn
 
-varying vec4 localPosition;    // position relative to untransformed model
-varying vec4 worldPosition;    // position relative to transfomed model
-varying vec4 viewPosition;     // position relative to the camera
-varying vec4 screenPosition;   // position viewed on the screen
-varying mat3 tangentSpace;     // matrix for transforming normals to tangent space
-varying mat3 worldSpaceNormal; // matrix for transforming normals to world space
-varying mat3 viewSpaceNormal;  // matrix for transforming normals to view space
+varying vec4 localPosition;      // position relative to untransformed model
+varying vec4 worldPosition;      // position relative to transfomed model
+varying vec4 viewPosition;       // position relative to the camera
+varying vec4 screenPosition;     // position viewed on the screen
+varying mat3 tangentSpaceNormal; // matrix for transforming normals to tangent space
+varying mat3 worldSpaceNormal;   // matrix for transforming normals to world space
+varying mat3 viewSpaceNormal;    // matrix for transforming normals to view space
 
 mat3 inverse(mat3 m)
 {
