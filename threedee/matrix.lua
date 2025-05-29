@@ -75,41 +75,6 @@ function Matrix:setTransformationMatrix(x,y,z, sx,sy,sz, rx,ry,rz,rk) -- transla
   self[13], self[14], self[15], self[16] = 0, 0, 0, 1;
 end
 
--- transpose of the camera (look at) Matrix
-function Matrix:lookAtFrom(posX,posY,posZ, targetX,targetY,targetZ, upX,upY,upZ)
-  self[4]  = posX;
-  self[8]  = posY;
-  self[12] = posZ;
-
-  local fx = posX - targetX;
-  local fy = posY - targetY;
-  local fz = posZ - targetZ;
-
-  local len = 1 / math.sqrt(fx*fx + fy*fy + fz*fz);
-
-  fx = fx * len;
-  fy = fy * len;
-  fz = fz * len;
-
-  local sx = upY * fz - upZ * fy;
-  local sy = upZ * fx - upX * fz;
-  local sz = upX * fy - upY * fx;
-
-  len = 1 / math.sqrt(sx * sx + sy * sy + sz * sz);
-
-  sx = sx * len;
-  sy = sy * len;
-  sz = sz * len;
-
-  local ux = fy * sz - fz * sy;
-  local uy = fz * sx - fx * sz;
-  local uz = fx * sy - fy * sx;
-
-  self[1], self[2], self[3]   = fx, sx * sy, ux * sz;
-  self[5], self[6], self[7]   = fy, sy * sy, uy * sz;
-  self[9], self[10], self[11] = fz, sz * sy, uz * sz;
-end
-
 function Matrix:setProjectionMatrix(fov, near, far, aspectRatio)
   local top   = near * math.tan(fov / 2);
   local right = top * aspectRatio;
@@ -122,12 +87,12 @@ function Matrix:setProjectionMatrix(fov, near, far, aspectRatio)
 end
 
 function Matrix:setViewMatrix(eyeX,eyeY,eyeZ, targetX,targetY,targetZ, upX,upY,upZ)
-  local z1 = eyeX - targetX;
-  local z2 = eyeY - targetY;
-  local z3 = eyeZ - targetZ;
+  local z1 = targetX;
+  local z2 = targetY;
+  local z3 = targetZ;
 
+  -- normalize the forward normal
   local len = 1 / math.sqrt(z1 * z1 + z2 * z2 + z3 * z3);
-
   z1 = z1 * len;
   z2 = z2 * len;
   z3 = z3 * len;
@@ -136,20 +101,26 @@ function Matrix:setViewMatrix(eyeX,eyeY,eyeZ, targetX,targetY,targetZ, upX,upY,u
   local x2 = upZ * z1 - upX * z3;
   local x3 = upX * z2 - upY * z1;
 
+  -- normalize the rightward normal
   len = 1 / math.sqrt(x1 * x1 + x2 * x2 + x3 * x3);
-
   x1 = x1 * len;
   x2 = x2 * len;
   x3 = x3 * len;
 
-  local y1 = z2 * x3 - z3 * x2;
-  local y2 = z3 * x1 - z1 * x3;
-  local y3 = z1 * x2 - z2 * x1;
+  local y1 = upX;--z2 * x3 - z3 * x2;
+  local y2 = upY;--z3 * x1 - z1 * x3;
+  local y3 = upZ;--z1 * x2 - z2 * x1;
+
+  -- normalize the upwards vector
+  len = 1 / math.sqrt(y1 * y1 + y2 * y2 + y3 * y3);
+  y1 = y1 * len;
+  y2 = y2 * len;
+  y3 = y3 * len;
 
   self[1],  self[2],  self[3],  self[4]  = x1, x2, x3, -(x1 * eyeX + x2 * eyeY + x3 * eyeZ);
   self[5],  self[6],  self[7],  self[8]  = y1, y2, y3, -(y1 * eyeX + y2 * eyeY + y3 * eyeZ);
   self[9],  self[10], self[11], self[12] = z1, z2, z3, -(z1 * eyeX + z2 * eyeY + z3 * eyeZ);
-  self[13], self[14], self[15], self[16] = 0 , 0 , 0 , 1;
+  self[13], self[14], self[15], self[16] = 0 , 0 , 0 , 1; -- fourth row is not used so set to identity
 end
 
 return Matrix;
