@@ -4,19 +4,26 @@ local Threedee = {};
 local self = Threedee; -- localized, for readability
 
 function Threedee.init()
- local Matrix = require(path .. "/matrix");
- local Shaders = require(path .. "/shaders");
- local Camera = require(path .. "/camera");
+  local Matrix = require(path .. "/matrix");
+  local Shaders = require(path .. "/shaders");
+  local Camera = require(path .. "/camera");
 
- Threedee.newMatrx = Matrix.new;
- Threedee.newCamera = Camera.new;
- Threedee.newShader = Shaders.new;
+  Threedee.newMatrx = Matrix.new;
+  Threedee.newCamera = Camera.new;
+  Threedee.newShader = Shaders.new;
 
- self.activeCamera = Camera.new(); -- create a new camera as the main camera
+  self.activeCamera = Camera.new(); -- create a new camera as the main camera
 end
 
 function Threedee.setActiveCamera(cam)
- self.activeCamera = cam;
+  self.activeCamera = cam;
+end
+
+function Threedee.newShader(pixelCode, vertexCode)
+  pixelCode = pixelCode or path .. "/default.frag";
+  vertexCode = vertexCode or path .. "/default.vert";
+
+  return love.graphics.newShader(pixelCode, vertexCode);
 end
 
 Threedee.init(); -- call on require
