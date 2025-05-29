@@ -18,6 +18,9 @@ end
 function Threedee.setActiveCamera(cam)
   self.activeCamera = cam;
 end
+function Threedee.getCamera()
+  return self.activeCamera;
+end
 
 function Threedee.newShader(pixelCode, vertexCode)
   pixelCode = pixelCode or path .. "/default.frag";
