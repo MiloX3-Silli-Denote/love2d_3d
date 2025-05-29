@@ -31,6 +31,10 @@ function World:instantiate(obj_name)
   return objCopy;
 end
 
+function World:update(dt)
+  -- nothing yet
+end
+
 function World:draw()
   for i, v in ipairs(self.objects) do
     v:draw();
