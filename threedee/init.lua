@@ -9,12 +9,14 @@ function Threedee.init()
   local Camera = require(path .. "/camera");
   local Model = require(path .. "/model");
   local Mesh = require(path .. "/mesh");
+  local Parser = require(path .. "/parser");
 
   Threedee.newMatrx = Matrix.new;
   Threedee.newCamera = Camera.new;
   Threedee.newShader = Shaders.new;
   Threedee.newModel = Model.new;
   Threedee.newMesh = Mesh.new;
+  Threedee.loadModel = Parser.loadModel;
 
   self.activeCamera = Camera.new(); -- create a new camera as the main camera
 end
