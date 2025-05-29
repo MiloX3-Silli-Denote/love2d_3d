@@ -9,7 +9,7 @@ Mesh.defaultVertexFormat = {
   {"VertexBitangent", "float", 3};
 };
 
--- {x,y,z, u,v, xn,yn,zn, r,g,b,a}, {}, {} ...
+-- {x,y,z, u,v, xn,yn,zn}, {}, {} ...
 function Mesh.new(...)
   local vertices = {...};
   assert(#vertices % 3 == 0, "tried to create a mesh with a non multiple of 3 number of vertices (meshes are in 'triangle' MeshDrawMode)");
