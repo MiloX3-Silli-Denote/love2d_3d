@@ -91,7 +91,7 @@ function Model:draw()
 
   love.graphics.setShader(self.shader); -- enable shader
   self.shader:send("modelMatrix", self.modelMatrix);
-  Threedee.getCamera():applyToShader(self.shader);
+  Threedee.getCamera():sendToShader(self.shader);
 
   for i, v in ipairs(self.meshes) do
     v:draw();
