@@ -1,16 +1,20 @@
 local path = (...);
 
-local Threedee = {};
+_G.Threedee = {};
 local self = Threedee; -- localized, for readability
 
 function Threedee.init()
   local Matrix = require(path .. "/matrix");
   local Shaders = require(path .. "/shaders");
   local Camera = require(path .. "/camera");
+  local Model = require(path .. "/model");
+  local Mesh = require(path .. "/mesh");
 
   Threedee.newMatrx = Matrix.new;
   Threedee.newCamera = Camera.new;
   Threedee.newShader = Shaders.new;
+  Threedee.newModel = Model.new;
+  Threedee.newMesh = Mesh.new;
 
   self.activeCamera = Camera.new(); -- create a new camera as the main camera
 end
