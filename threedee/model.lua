@@ -1,6 +1,8 @@
 local Model = {};
 Model.__index = Model;
 
+Model.shader = Threedee.newShader(); -- default shader
+
 function Model.new(meshes)
   local instance = setmetatable({}, Model);
 
@@ -22,6 +24,10 @@ function Model.new(meshes)
   instance.updateModelMat = true;
 
   return instance;
+end
+
+function Model:setShader(shader)
+  self.shader = shader;
 end
 
 function Model:setPosition(x, y, z)
@@ -83,9 +89,15 @@ function Model:draw()
     self.updateModelMat = false;
   end
 
+  love.graphics.setShader(self.shader); -- enable shader
+  self.shader:send("modelMatrix", self.modelMatrix);
+  Threedee.getCamera():applyToShader(self.shader);
+
   for i, v in ipairs(self.meshes) do
     v:draw();
   end
+
+  love.graphics.setShader(); -- dissable shader
 end
 
 return Model;
